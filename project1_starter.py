@@ -107,7 +107,6 @@ def save_character(character, filename):
             print(f"ERROR: Character data is missing the required key: '{key}'.")
             return False
 
-    # ✅ --- 2. Check if directory path is valid before writing ---
     dir_path = os.path.dirname(filename)
     if dir_path != "" and not os.path.exists(dir_path):
         print(f"ERROR: Directory does not exist: {dir_path}")
@@ -149,7 +148,6 @@ def load_character(filename):
                 key = parts[0].strip()
                 value = parts[1].strip()
 
-                # ✅ Map keys from file to expected dictionary keys
                 key_mappings = {
                     "character name": "name",
                     "class": "class",
@@ -166,7 +164,6 @@ def load_character(filename):
                 else:
                     continue  # skip any unexpected lines
 
-                # ✅ Convert numeric fields to int when applicable
                 if key in ['level', 'strength', 'magic', 'health', 'gold']:
                     if value.isdigit():
                         character_data[key] = int(value)

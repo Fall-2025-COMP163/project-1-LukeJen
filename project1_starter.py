@@ -18,6 +18,12 @@ def create_character(name, character_class):
     char = create_character("Aria", "Mage")
     # Should return: {"name": "Aria", "class": "Mage", "level": 1, "strength": 5, "magic": 15, "health": 80, "gold": 100}
     """
+    if name is None:
+        name = ""
+
+    if character_class is None:
+        character_class = "Adventurer"
+
     level = 1
     gold = 100
 
@@ -96,6 +102,24 @@ def save_character(character, filename):
     Health: [health]
     Gold: [gold]
     """
+    required_keys = ['name', 'class', 'level', 'strength', 'magic', 'health', 'gold']
+
+    # --- 1. Check Input Data Validity ---
+    if not isinstance(character, dict):
+        print(f"ERROR: Character data must be a dictionary, got {type(character).__name__}.")
+        return False
+
+    for key in required_keys:
+        if key not in character:
+            print(f"ERROR: Character data is missing the required key: '{key}'.")
+            return False
+
+    # ✅ --- 2. Check if directory path is valid before writing ---
+    dir_path = os.path.dirname(filename)
+    if dir_path != "" and not os.path.exists(dir_path):
+        print(f"ERROR: Directory does not exist: {dir_path}")
+        return False
+
     with open(filename, 'w') as file:
         file.write(f"Character Name: {character['name']}\n")
         file.write(f"Class: {character['class']}\n")

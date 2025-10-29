@@ -120,7 +120,6 @@ def load_character(filename):
     
     # --- 1. Handle File Not Found using os.path.exists() ---
     if not os.path.exists(filename):
-        print(f"ERROR: File not found: {filename}")
         return None
 
     character_data = {}
@@ -147,14 +146,12 @@ def load_character(filename):
                     if value.isdigit():
                         character_data[key] = int(value)
                     else:
-                        print(f"WARNING: Corrupted data for '{key}'. Expected number, got '{value}'. Skipping entry.")
                         continue
                 else:
                     character_data[key] = value
 
     # Check if any data was actually loaded
     if not character_data:
-        print(f"ERROR:No File Named: {filename}")
         return None
 
     return character_data

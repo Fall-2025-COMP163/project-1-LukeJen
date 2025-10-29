@@ -6,7 +6,9 @@ Date: [10/28/2025]
 AI Usage: [Document any AI assistance used]
 Example: AI helped with file I/O error handling logic in save_character function
 """
+import os
 
+# CREATE CHARACTER FUNCTION
 def create_character(name, character_class):
     """
     Creates a new character dictionary with calculated stats
@@ -38,7 +40,7 @@ def create_character(name, character_class):
     # TODO: Implement this function
     # Remember to use calculate_stats() function for stat calculation
     
-
+# CALCULATE STATS FUNCTION
 def calculate_stats(character_class, level):
     """
     Calculates base stats based on class and level
@@ -79,7 +81,7 @@ def calculate_stats(character_class, level):
     # TODO: Implement this function
     # Return a tuple: (strength, magic, health)
     
-
+#SAVE CHARACTER FUNCTION
 def save_character(character, filename):
     """
     Saves character to text file in specific format
@@ -109,16 +111,55 @@ def save_character(character, filename):
     # TODO: Implement this function
     # Remember to handle file errors gracefully
 
+#LOAD CHARACTER FUNCTION
 def load_character(filename):
     """
     Loads character from text file
     Returns: character dictionary if successful, None if file not found
     """
     
-    # TODO: Implement this function
-    # Remember to handle file not found errors
-    pass
+    # --- 1. Handle File Not Found using os.path.exists() ---
+    if not os.path.exists(filename):
+        print(f"ERROR: File not found: {filename}")
+        return None
 
+    character_data = {}
+
+    # The file opening must be done carefully as it can still raise an OSError/IOError
+    with open(filename, 'r') as file:
+
+        lines = file.readlines()
+
+        for line in lines:
+            # Clean up the line and split it once at the colon
+            parts = line.strip().split(':', 1)
+
+            # Ensure the line has the expected 'Key: Value' format
+            if len(parts) == 2:
+                key = parts[0].strip().lower().replace(' ', '_')
+                value = parts[1].strip()
+
+                # --- 2. Convert Data Types without try/except ---
+                if key in ['level', 'strength', 'magic', 'health', 'gold']:
+
+                    # Check if the value is purely digits before attempting conversion
+                    # NOTE: This only works for positive integers and is a weak check.
+                    if value.isdigit():
+                        character_data[key] = int(value)
+                    else:
+                        print(f"WARNING: Corrupted data for '{key}'. Expected number, got '{value}'. Skipping entry.")
+                        continue
+                else:
+                    character_data[key] = value
+
+    # Check if any data was actually loaded
+    if not character_data:
+        print(f"ERROR:No File Named: {filename}")
+        return None
+
+    return character_data
+
+#LOAD CHARACTER FUNCTION
 def display_character(character):
     """
     Prints formatted character sheet
@@ -135,6 +176,7 @@ def display_character(character):
     print(f"Health: {character['health']}\n")
     print(f"Gold: {character['gold']}\n")
 
+#LEVEL UP FUNCTION
 def level_up(character):
     """
     Increases character level and recalculates stats
@@ -163,11 +205,10 @@ def level_up(character):
 
 # Main program area (optional - for testing your functions)
 if __name__ == "__main__":
-    print("=== CHARACTER CREATOR ===")
-    print("Test your functions here!")
-    
-    # Example usage:
-    # char = create_character("TestHero", "Warrior")
-    # display_character(char)
-    # save_character(char, "my_character.txt")
-    # loaded = load_character("my_character.txt")
+   
+
+    char = create_character("TestHero", "Mage")
+    display_character(char)
+    level_up(char)
+    save_character(char, "my_character.txt")
+    loaded = load_character("my_character.txt")

@@ -199,9 +199,7 @@ def level_up(character):
     character["magic"] = new_magic
     character["health"] = new_health
 
-    # Optional: Add a small reward or notification
-    character["gold"] += (new_level * 50)
-    print(f"🎉 {character['name']} has leveled up! New Level: {new_level}")
+    
 
 # Main program area (optional - for testing your functions)
 if __name__ == "__main__":

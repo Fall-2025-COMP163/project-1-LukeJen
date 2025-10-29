@@ -132,32 +132,42 @@ def load_character(filename):
     Loads character from text file
     Returns: character dictionary if successful, None if file not found
     """
-    
+
     # --- 1. Handle File Not Found using os.path.exists() ---
     if not os.path.exists(filename):
         return None
 
     character_data = {}
 
-    # The file opening must be done carefully as it can still raise an OSError/IOError
     with open(filename, 'r', encoding='utf-8') as file:
-
         lines = file.readlines()
 
         for line in lines:
-            # Clean up the line and split it once at the colon
             parts = line.strip().split(':', 1)
 
-            # Ensure the line has the expected 'Key: Value' format
             if len(parts) == 2:
-                key = parts[0].strip().lower().replace(' ', '_')
+                key = parts[0].strip()
                 value = parts[1].strip()
 
-                # --- 2. Convert Data Types without try/except ---
-                if key in ['level', 'strength', 'magic', 'health', 'gold']:
+                # ✅ Map keys from file to expected dictionary keys
+                key_mappings = {
+                    "character name": "name",
+                    "class": "class",
+                    "level": "level",
+                    "strength": "strength",
+                    "magic": "magic",
+                    "health": "health",
+                    "gold": "gold"
+                }
 
-                    # Check if the value is purely digits before attempting conversion
-                    # NOTE: This only works for positive integers and is a weak check.
+                normalized_key = key.lower()
+                if normalized_key in key_mappings:
+                    key = key_mappings[normalized_key]
+                else:
+                    continue  # skip any unexpected lines
+
+                # ✅ Convert numeric fields to int when applicable
+                if key in ['level', 'strength', 'magic', 'health', 'gold']:
                     if value.isdigit():
                         character_data[key] = int(value)
                     else:
@@ -165,7 +175,7 @@ def load_character(filename):
                 else:
                     character_data[key] = value
 
-    # Check if any data was actually loaded
+    # --- 3. Validate loaded data ---
     if not character_data:
         return None
 

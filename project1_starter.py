@@ -41,10 +41,6 @@ def create_character(name, character_class):
 
     return character
 
-
-
-    # TODO: Implement this function
-    # Remember to use calculate_stats() function for stat calculation
     
 # CALCULATE STATS FUNCTION
 def calculate_stats(character_class, level):
@@ -83,9 +79,6 @@ def calculate_stats(character_class, level):
     #Updates the value:>
     return (strength, magic, health)
 
-
-    # TODO: Implement this function
-    # Return a tuple: (strength, magic, health)
     
 #SAVE CHARACTER FUNCTION
 def save_character(character, filename):
@@ -133,9 +126,6 @@ def save_character(character, filename):
     # If the code reaches this point, the file write was successful
     return True
 
-    # TODO: Implement this function
-    # Remember to handle file errors gracefully
-
 #LOAD CHARACTER FUNCTION
 def load_character(filename):
     """
@@ -150,7 +140,7 @@ def load_character(filename):
     character_data = {}
 
     # The file opening must be done carefully as it can still raise an OSError/IOError
-    with open(filename, 'r') as file:
+    with open(filename, 'r', encoding='utf-8') as file:
 
         lines = file.readlines()
 

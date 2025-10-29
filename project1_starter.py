@@ -119,8 +119,8 @@ def save_character(character, filename):
     if dir_path != "" and not os.path.exists(dir_path):
         print(f"ERROR: Directory does not exist: {dir_path}")
         return False
-
-    with open(filename, 'w') as file:
+    
+    with open(filename, 'w', encoding='utf-8') as file:
         file.write(f"Character Name: {character['name']}\n")
         file.write(f"Class: {character['class']}\n")
         file.write(f"Level: {character['level']}\n")
@@ -128,6 +128,7 @@ def save_character(character, filename):
         file.write(f"Magic: {character['magic']}\n")
         file.write(f"Health: {character['health']}\n")
         file.write(f"Gold: {character['gold']}\n")
+
         
     # If the code reaches this point, the file write was successful
     return True

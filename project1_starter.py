@@ -4,7 +4,7 @@ Name: [Luke Jensen]
 Date: [10/28/2025]
 
 AI Usage: [Document any AI assistance used]
-Example: AI helped with file I/O error handling logic in save_character function
+Example: AI helped with file I/O error handling logic in load_character function
 """
 import os
 

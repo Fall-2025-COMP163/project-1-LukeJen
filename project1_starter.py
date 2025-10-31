@@ -3,8 +3,8 @@ COMP 163 - Project 1: Character Creator & Saving/Loading
 Name: [Luke Jensen]
 Date: [10/28/2025]
 
-AI Usage: [Document any AI assistance used]
-Example: AI helped with file I/O error handling logic in load_character function
+AI Usage: AI helped with file I/O error handling logic in load_character function
+
 """
 import os
 
